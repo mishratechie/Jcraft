@@ -70,7 +70,7 @@ public class ShellRunner {
         shell.disconnect();
         session.disconnect();
 
-        if(flagCompletedBatch==true && flagAnErrorOccurred==false){
+        if(flagCompletedBatch && !flagAnErrorOccurred){
 
             smokeTestResult=true;
             System.out.println(" Test Passed");
