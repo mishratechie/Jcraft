@@ -14,7 +14,7 @@ public class ShellRunner {
 
 	public static boolean runBatchScriptInLinux() throws JSchException, IOException, SftpException, InterruptedException{
 
-        boolean flagCompletedApplyBatch=false;
+        boolean flagCompletedBatch=false;
         boolean flagAnErrorOccurred=false;
         boolean smokeTestResult=false;
 
@@ -33,10 +33,10 @@ public class ShellRunner {
         OutputStream output = shell.getOutputStream();
 
         String sudoPassword=sudoPasswordLinux;
-        System.out.println("sudo password "+ sudoPassword);
-        output.write(("echo "+sudoPassword+" | sudo -S su - batchmgr && sudo -S su - batchmgr\n").getBytes());
+        System.out.println("sudo password " + sudoPassword);
+        output.write(("echo " + sudoPassword + " | sudo -S su - batchmgr && sudo -S su - batchmgr\n").getBytes());
         output.flush();
-        output.write(("cd /cust/app/shellScriptLocation/\n").getBytes());
+        output.write(("cd /local/app/shellScriptLocation/\n").getBytes());
         output.flush();
         output.write(("sh run.sh\n").getBytes());
         output.flush();
@@ -54,7 +54,7 @@ public class ShellRunner {
                     //Below two If's with string contains are absorbed from batch script file.
                     //If any future change in applyBatch script happens we need to change the below if's according to disconnect the shell.
                     if(str.contains("Batch Executed Successfully")){
-                        flagCompletedApplyBatch=true;
+                        flagCompletedBatch=true;
                         shell.disconnect();
                     }//if One
                     if(str.contains("An error occurred running batch")){
@@ -70,7 +70,7 @@ public class ShellRunner {
         shell.disconnect();
         session.disconnect();
 
-        if(flagCompletedApplyBatch==true && flagAnErrorOccurred==false){
+        if(flagCompletedBatch==true && flagAnErrorOccurred==false){
 
             smokeTestResult=true;
             System.out.println(" Test Passed");
